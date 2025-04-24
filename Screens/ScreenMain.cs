@@ -1,7 +1,6 @@
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.Common;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 
 namespace OpenTKTest.Screens
 {
@@ -11,8 +10,10 @@ namespace OpenTKTest.Screens
             GameWindowSettings.Default,
             new NativeWindowSettings()
             {
-                Size = new Vector2i(800, 600),
-                Title = "OpenTK Test"
+                Size = Tools.GetScreenDimensions(),
+                Title = "OpenTK Test",
+                WindowState = WindowState.Fullscreen,
+                WindowBorder = WindowBorder.Hidden
             })
         {
         }
