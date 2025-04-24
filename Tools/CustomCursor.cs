@@ -1,7 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Drawing;
-using System.Drawing.Imaging;
+using SkiaSharp;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace OpenTKTest.Tools
@@ -27,18 +26,25 @@ namespace OpenTKTest.Tools
             _texture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, _texture);
 
-            using (var image = new Bitmap(imagePath))
+            using (var bitmap = SKBitmap.Decode(imagePath))
             {
-                _size = new Vector2(image.Width, image.Height);
-                var data = image.LockBits(
-                    new Rectangle(0, 0, image.Width, image.Height),
-                    ImageLockMode.ReadOnly,
-                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                _size = new Vector2(bitmap.Width, bitmap.Height);
+                
+                // Конвертируем в RGBA
+                var pixels = new byte[bitmap.Width * bitmap.Height * 4];
+                var sourcePixels = bitmap.Pixels;
+                for (int i = 0; i < sourcePixels.Length; i++)
+                {
+                    var pixel = sourcePixels[i];
+                    int idx = i * 4;
+                    pixels[idx] = pixel.Red;
+                    pixels[idx + 1] = pixel.Green;
+                    pixels[idx + 2] = pixel.Blue;
+                    pixels[idx + 3] = pixel.Alpha;
+                }
 
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
-                    data.Width, data.Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-                image.UnlockBits(data);
+                    bitmap.Width, bitmap.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, pixels);
             }
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
