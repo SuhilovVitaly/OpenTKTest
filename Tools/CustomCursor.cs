@@ -122,7 +122,10 @@ namespace OpenTKTest.Tools
 
         public void Update(Vector2 mousePosition)
         {
-            _position = mousePosition;
+            _position = new Vector2(
+                 mousePosition.X - _size.X + 13,
+                mousePosition.Y - _size.Y + 5
+            );
         }
 
         public void Render(Vector2 screenSize)
