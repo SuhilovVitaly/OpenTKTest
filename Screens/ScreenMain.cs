@@ -60,7 +60,7 @@ namespace OpenTKTest.Screens
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 var size = graphics.MeasureString(_versionText, new Font("Arial", 14));
-                _versionTextBounds = new Rectangle(5, Size.Y - 25, (int)size.Width, (int)size.Height);
+                _versionTextBounds = new Rectangle(5, Size.Y - 50, (int)size.Width, (int)size.Height);
             }
         }
 
@@ -94,7 +94,7 @@ namespace OpenTKTest.Screens
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             // Рисуем текст в левом нижнем углу
-            _textRenderer.RenderText(_versionText, 5, Size.Y - 25);
+            _textRenderer.RenderText(_versionText, 5, Size.Y - 50);
 
             // Рисуем соответствующий курсор
             var screenSize = new Vector2(Size.X, Size.Y);
