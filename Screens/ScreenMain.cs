@@ -128,7 +128,7 @@ namespace OpenTKTest.Screens
         private void TerminateProcess()
         {
             Close();
-            Process.GetCurrentProcess().Kill();
+            Environment.Exit(0);
         }
 
         protected override void OnUnload()
